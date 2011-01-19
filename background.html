@@ -1,0 +1,82 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+<script>
+var seinfeld_chrome = {
+
+  refresh_rate: 3600000,
+  default_calendar_url: 'http://calendaraboutnothing.com/~',
+  
+
+  fetch_from_calendar_url: function() {
+    var self = this;
+    if (localStorage['calendar_url'] === undefined || localStorage['calendar_url'] === this.default_calendar_url) {
+      localStorage['calendar_url'] = this.default_calendar_url;
+    } else {    
+      $.ajax({  
+        url: localStorage['calendar_url'],  
+        success: function(data) { 
+          self.calendar_data_response(data);
+        }  
+      });
+    }
+  },
+  
+  
+  calendar_data_response: function(data) {
+    // Streak
+    localStorage['current_streak'] = parseInt($(".current_streak span.num", data).html(), 10);
+    
+    // Get Progress Today
+    if ($(".progressed.today", data).length > 0) {
+      localStorage['progressed_today'] = 'true';
+    } else {
+      localStorage['progressed_today'] = 'false';
+    }
+    
+    this.update_interface();
+  },
+  
+  
+  update_interface: function() {
+    var self = this;
+  
+    // Update Badge
+    if (localStorage['show_badge'] === 'true') {
+      chrome.browserAction.setBadgeText({text: localStorage['current_streak']});
+    } else {
+      chrome.browserAction.setBadgeText({text: ""});
+    }
+    
+    // Update Progress
+    if (localStorage['progressed_today'] === 'true') {
+      chrome.browserAction.setIcon({path: "icon_green.png"});
+      chrome.browserAction.setBadgeBackgroundColor({color:[0,255,0,255]});
+    } else {
+      chrome.browserAction.setIcon({path: "icon.png"});
+      chrome.browserAction.setBadgeBackgroundColor({color:[255,0,0,255]});
+    }
+    
+    // Schedule Next Update
+    setTimeout(function(){
+      this.update();
+    }, this.refresh_rate);
+  },
+  
+  
+  
+  update: function() {
+    // A simple scrape of the page will do for now.
+    // We'll authenticate to github for faster results in the future.
+    this.fetch_from_calendar_url();
+  }
+
+};
+
+seinfeld_chrome.update();
+
+// listen_for_storage_updates
+window.addEventListener("storage", function(event){
+  console.log('store')
+  seinfeld_chrome.update();
+}, false);
+
+</script>
