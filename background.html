@@ -1,6 +1,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
 <script>
-var seinfeld_chrome = {
+var jacopo = {
 
   refresh_rate: 3600000,
   default_calendar_url: 'http://calendaraboutnothing.com/~',
@@ -57,7 +57,7 @@ var seinfeld_chrome = {
     
     // Schedule Next Update
     setTimeout(function(){
-      this.update();
+      self.update();
     }, this.refresh_rate);
   },
   
@@ -71,12 +71,11 @@ var seinfeld_chrome = {
 
 };
 
-seinfeld_chrome.update();
+jacopo.update();
 
 // listen_for_storage_updates
 window.addEventListener("storage", function(event){
-  console.log('store')
-  seinfeld_chrome.update();
+  jacopo.update();
 }, false);
 
 </script>
