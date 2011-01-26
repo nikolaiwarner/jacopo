@@ -2,8 +2,10 @@
 <script>
 var jacopo = {
 
-  refresh_rate: 3600000,
+  refresh_rate: 60 * 60 * 1000,
   default_calendar_url: 'http://calendaraboutnothing.com/~',
+  
+  refresh_timer: undefined,
   
 
   fetch_from_calendar_url: function() {
@@ -54,27 +56,37 @@ var jacopo = {
       chrome.browserAction.setIcon({path: "icon.png"});
       chrome.browserAction.setBadgeBackgroundColor({color:[255,0,0,255]});
     }
-    
-    // Schedule Next Update
-    setTimeout(function(){
-      self.update();
-    }, this.refresh_rate);
   },
   
   
+  schedule_refresh: function() {
+    var self = this;
+    if (this.refresh_timer) {
+      clearInterval(this.refresh_timer);
+    }
+    this.refresh_timer = setInterval(function(){ self.update(); }, this.refresh_rate);
+  },
+  
   
   update: function() {
+    console.log("UPDATED AT: "+(Math.round(new Date().getTime() / 1000)));
+    
     // A simple scrape of the page will do for now.
     // We'll authenticate to github for faster results in the future.
     this.fetch_from_calendar_url();
-  }
+  },
 
+  init: function() {
+    this.schedule_refresh();
+    this.update();
+  }
 };
 
-jacopo.update();
+jacopo.init();
 
 // listen_for_storage_updates
 window.addEventListener("storage", function(event){
+  jacopo.schedule_refresh();
   jacopo.update();
 }, false);
 
