@@ -1,11 +1,12 @@
 <html>
 <head><title>Options</title></head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
   function save_options() {
   
     localStorage["show_badge"] = $('#show_badge').is(':checked');
+    localStorage["show_notification"] = $('#show_notification').is(':checked');
     localStorage["calendar_url"] = $('#calendar_url').val();
   
     // Update status to let user know options were saved.
@@ -18,6 +19,7 @@
   
   function restore_options() {
     $('#show_badge').attr('checked', (localStorage["show_badge"] === "true"));
+    $('#show_notification').attr('checked', (localStorage["show_notification"] === "true"));
     $('#calendar_url').val(localStorage["calendar_url"]);
   }
 
@@ -56,6 +58,9 @@
   <input type="checkbox" id="show_badge" value="true" /> Show Current Streak
 </div>
 
+<div>
+  <input type="checkbox" id="show_notification" value="false" /> Show Reminder Desktop Notification
+</div>
 
 <div>
   <button onclick="save_options()">Save</button>

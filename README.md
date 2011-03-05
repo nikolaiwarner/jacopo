@@ -11,3 +11,12 @@ Jacopo is a little reminder for your Seinfeld Calendar that lives in Chrome.
 * Set your seinfeld calendar url in the Options. Perhaps go here first: <http://calendaraboutnothing.com>
 
 * Make some open source progress!
+
+
+## Features
+
+* Daily progress indicator
+
+* A streak count display
+
+* Desktop notification reminders
