@@ -4,7 +4,6 @@
   <img src='icon.png' style='float:left; padding: 5px;' />
 
   <h1>Don't break your streak.</h1>
-  <br/>
   You have not completed your contribution to open source today. 
   <br/>
   <span id='time_left'></span>
@@ -26,6 +25,6 @@
   var current_time = new Date();
   var time_left_hours = 24 - current_time.getHours();
 	var time_left_text = "Less than " + time_left_hours + " hour";
-  time_left_text = (time_left_hours === 1) ? time_left_text + "s remain." : time_left_text + " remains.";
+  time_left_text = (time_left_hours === 1) ? time_left_text + " remains." : time_left_text + "s remain.";
   document.getElementById('time_left').innerHTML = time_left_text;
 </script>

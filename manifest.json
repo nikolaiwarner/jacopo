@@ -1,6 +1,6 @@
 {
   "name": "Jacopo",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A little reminder for your Seinfeld Calendar",
   "background_page": "background.html",
   "browser_action": {
