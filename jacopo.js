@@ -34,15 +34,7 @@ var jacopo = {
        
     // Show notification
     if (localStorage['show_notification'] === 'true' && localStorage['progressed_today'] === 'false') {
-      var current_time = new Date();
-      var time_left_hours = 24 - current_time.getHours();
-    	//var time_left_minutes = 60 - current_time.getMinutes();
-      
-      var notification = webkitNotifications.createNotification(
-        'icon.png',
-        "Don't break your streak.",
-        'You have not completed your contribution to open source today. You have less than ' + time_left_hours + ' hours remaining.'
-      );
+      var notification = webkitNotifications.createHTMLNotification('notification.html');
       notification.show();
     }
     
@@ -81,8 +73,6 @@ var jacopo = {
   
   
   update: function() {
-    console.log("UPDATED AT: "+(Math.round(new Date().getTime() / 1000)));
-    
     // A simple scrape of the page will do for now.
     // We'll authenticate to github for faster results in the future.
     this.fetch_from_calendar_url();
@@ -93,18 +83,3 @@ var jacopo = {
     this.update();
   }
 };
-
-
-$(document).ready(function(){
-  jacopo.init();
-  
-  // listen_for_storage_updates
-  window.addEventListener("storage", function(event){
-    if (event.key === 'calendar_url') {
-      jacopo.schedule_refresh();
-      jacopo.update();
-    } else {
-      jacopo.update_interface();
-    }
-  }, false);
-});
