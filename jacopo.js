@@ -36,6 +36,9 @@ var jacopo = {
     if (localStorage['show_notification'] === 'true' && localStorage['progressed_today'] === 'false') {
       var notification = webkitNotifications.createHTMLNotification('notification.html');
       notification.show();
+      setTimeout(function(){
+        notification.cancel();
+      }, '20000');
     }
     
     this.update_interface();
